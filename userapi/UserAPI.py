@@ -110,4 +110,16 @@ class UserAPI:
         return self.id
 
 
-    
+    def build_conversations(self, inbox, outbox):
+        conversations = {}
+        for message in inbox + outbox:
+            person = message.mfrom if message.mfrom.id != self.get_own_id() else message.mto
+            try:
+                conversation = conversations[person.id]
+            except:
+                conversation = Conversation(person, [])
+                conversations[person.id] = conversation
+            conversation.messages.append(message)
+        return conversations.values()
+
+

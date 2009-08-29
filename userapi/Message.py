@@ -18,3 +18,8 @@ class Messages:
         self.messages  = messages
 
 
+class Conversation:
+    def __init__(self, mwith, messages):
+        self.mwith     = mwith
+        self.messages  = messages
+
