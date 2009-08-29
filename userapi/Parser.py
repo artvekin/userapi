@@ -27,10 +27,10 @@ class Parser:
         for message_data in self.data['d']:
             messages.append(Parser(message_data).as_message())
     
-            return Messages(int(self.data['n']),
-                            int(self.data['h']),
-                            len(self.data['d']),
-                            messages)
+        return Messages(int(self.data['n']),
+                        int(self.data['h']),
+                        len(self.data['d']),
+                        messages)
 
     def as_person(self, type):
         if      type == MSG_PERSON:
