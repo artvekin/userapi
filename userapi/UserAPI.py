@@ -22,10 +22,14 @@ class UserAPITypes:
     MutualFriends       = "mutual"
     OnlineFirends       = "online"
     NewFriends          = "new"
+    NewPhotos           = "new"
+    MyPhotos            = "with"
+  
 
 class UserAPI:
     def __init__(self, session):
         self.session = session
+        self.id      = 0
         
     def v_api(self, action, parameters):
         # self.renew_session()
@@ -82,10 +86,28 @@ class UserAPI:
 
         return Parser(data).as_messages()
 
+    def v_photos(self, subtype, id, start, end):
+        action = "photos"
+        if subtype:
+            action = action + "_" + subtype
+
+        data = self.v_api(action, { "from" : start,
+                                    "to"   : end,
+                                    "id"   : id})
+        
+        return Parser(data).as_photos()
+        
+
     def get_own_id(self):
         # Fucked hack
-        messages = self.v_messages(UserAPITypes.Outbox, None, 0, 1)
-        if messages.count <= 0:
-            return RetCodes.Error
 
-        return messages.messages[0].mfrom.id
+        if self.id == 0:
+            messages = self.v_messages(UserAPITypes.Outbox, None, 0, 1)
+            if messages.count <= 0:
+                return RetCodes.Error
+            self.id = messages.messages[0].mfrom.id
+        
+        return self.id
+
+
+    
