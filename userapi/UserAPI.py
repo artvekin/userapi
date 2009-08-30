@@ -52,6 +52,7 @@ class UserAPI:
 
         data = re.sub("([0-9]+):", "\"\\1\":", data)
         data = re.sub("\\t", " ", data)
+        data = re.sub("\[\"([^\"]+)\"\]","\"\\1\"", data)
 
         return json.loads(data, "utf-8")
 
