@@ -4,8 +4,7 @@ from userapi import *
 
 USER = "test.vkontakte@mail.ru"
 PASS = "yi8zXpHIs"
-DID="11784322"
-DID2="5368780"
+DID="41657126"
 
 def test_01():
     print "Own ID: " + str(test.get_own_id())
@@ -16,8 +15,8 @@ def test_02():
         print friend.name + "\t<" + str(friend.id) + ">"
 
 def test_03():
-    print test.v_friends(None, 5368780, 1, 100)
-    print test.v_friends(UserAPITypes.OnlineFirends, 5368780, 1, 100)
+    print test.v_friends(None, DID, 1, 100)
+    print test.v_friends(UserAPITypes.OnlineFirends, DID, 1, 100)
 
 def test_04():
     inbox = test.v_messages(UserAPITypes.Inbox, None, 0, 100)
