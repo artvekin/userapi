@@ -27,8 +27,13 @@ def test_04():
         for message in conversation.messages:
             print  "\t<" + message.text + ">"
 
+def test_05():
+    wall = test.v_wall(test.get_own_id(), 0, 100)
+    for message in wall.messages:
+        print message.mfrom.name + "\t<" + message.text + ">" + "\t == " + (message.original_url or "--")
 
-tests = [test_01, test_04]
+
+tests = [test_01, test_04, test_05]
 
 try:
     session = Session()
