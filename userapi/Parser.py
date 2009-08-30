@@ -51,7 +51,7 @@ class Parser:
             return Person(id, name, avatar, isOnline, miniimg, sex)
 
         elif    parse_type == FRI_PERSON:
-            id         = self.data[0]
+            id         = self.data[0] if type(self.data[0]) is list else self.data
             name       = None 
             avatar     = None 
             isOnline   = None 
