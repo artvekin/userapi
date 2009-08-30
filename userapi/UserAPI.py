@@ -97,6 +97,12 @@ class UserAPI:
         
         return Parser(data).as_photos()
 
+    def v_profile(self, id = None):
+        action = "profile"
+        
+        data = self.v_api(action, { "id"   : id})
+        return Parser(data).as_person(PRO_PERSON)
+
     def get_own_id(self):
         if self.id == 0:
             data = self.v_api('profile', { "id" : None })

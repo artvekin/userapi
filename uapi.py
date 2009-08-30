@@ -27,8 +27,50 @@ def test_04():
         for message in conversation.messages:
             print  "\t<" + message.text + ">"
 
+def test_05():
+    profile = test.v_profile()
+    print "Profile of user " + profile.name + " <" + str(profile.id) + "> "
+    print "Mother: " + str(profile.mother)
+    print "Status: "   + str(profile.status)
+    print "Sex: "     + str(profile.sex)
+    print "Pic: "     + str(profile.avatar)
+    print "Birthday: " + str(profile.birthday)
+    print "State: "   + str(profile.state.getStatus())
+    print "Political: " + str(profile.politics.getStatus())
+    print "Friends: "
 
-tests = [test_01, test_04]
+    
+
+    for friend in profile.friends.persons:
+        print friend.name
+        print friend.id
+        print friend.name + " <" + str(friend.id) + ">"
+
+    print "Friends on-line:"
+    for friend in profile.friends_online.persons:
+        print friend.name + " <" + str(friend.id) + ">"
+
+    print "Friends shared:"
+    for friend in profile.shared_friends.persons:
+        print friend.name + " <" + str(friend.id) + ">"
+
+    print "My photos:"
+    for photo in profile.own_photos.photos:
+        print str(photo.pic)
+
+    print "Photos with me:"
+    for photo in profile.mark_photos.photos:
+        print str(photo.pic)
+
+    print "Wall not yet implemented"
+
+    print "On-line status: " + str(profile.online)
+
+    print "Education statements not implemented fully yet:"
+    print str(profile.education)
+
+
+tests = [test_01, test_05]
 
 try:
     session = Session()
@@ -44,4 +86,5 @@ try:
 
 except UserAPIError as error:
     print "Get code: " + str(error.code) + " " + error.text
+
 
