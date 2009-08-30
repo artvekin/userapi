@@ -13,7 +13,6 @@ class Parser:
         self.data = data
 
     def as_message(self):
-
         return Message(int(self.data['0']),
                        int(self.data['1']),
                        self.data['2'],
@@ -32,9 +31,10 @@ class Parser:
                         len(self.data['d']),
                         messages)
 
-    def as_person(self, type):
-        if      type == MSG_PERSON:
-            id         = self.data[0]
+    def as_person(self, parse_type):
+        if     parse_type == MSG_PERSON:
+            
+            id         = self.data[0] if type(self.data[0]) is list else self.data
             name       = None 
             avatar     = None 
             miniimg    = None 
@@ -47,10 +47,10 @@ class Parser:
                 miniimg    = self.data[3]
                 sex        = self.data[4]
                 isOnline   = self.data[5]
-
+                
             return Person(id, name, avatar, isOnline, miniimg, sex)
 
-        elif    type == FRI_PERSON:
+        elif    parse_type == FRI_PERSON:
             id         = self.data[0]
             name       = None 
             avatar     = None 
@@ -63,7 +63,7 @@ class Parser:
 
             return Person(id, name, avatar, isOnline)
 
-        elif    type == PRO_PERSON:
+        elif    parse_type == PRO_PERSON:
             prof = PersonsProfile()
             
             id         = self.data['id']
