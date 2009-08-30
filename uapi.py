@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*- 
+
 from userapi import *
 
 USER = "test.vkontakte@mail.ru"
@@ -24,7 +26,7 @@ def test_04():
     for conversation in conversations:
         print "conversation: " + conversation.mwith.name
         for message in conversation.messages:
-            print  "\t<" + message.text + ">"
+            print  "\t<" + message.text.decode() + ">"
 
 
 tests = [test_01, test_04]
@@ -40,6 +42,8 @@ try:
     for testcase in tests:
         print "---------------------------"
         testcase()
+
+    session.logout()
 
 except UserAPIError as error:
     print "Get code: " + str(error.code) + " " + error.text
