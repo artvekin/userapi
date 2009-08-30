@@ -15,7 +15,7 @@ class Parser:
     def as_message(self):
         return Message(int(self.data['0']),
                        int(self.data['1']),
-                       self.data['2'],
+                       self.data['2'][0],
                        Parser(self.data['3']).as_person(MSG_PERSON),
                        Parser(self.data['4']).as_person(MSG_PERSON),
                        bool(self.data['5']))
@@ -34,7 +34,7 @@ class Parser:
     def as_person(self, parse_type):
         if     parse_type == MSG_PERSON:
             
-            id         = self.data[0] if type(self.data[0]) is list else self.data
+            id         = self.data[0]
             name       = None 
             avatar     = None 
             miniimg    = None 
