@@ -28,12 +28,53 @@ def test_04():
             print  "\t<" + message.text + ">"
 
 def test_05():
+    profile = test.v_profile()
+    print "Profile of user " + profile.name + " <" + str(profile.id) + "> "
+    print "Mother: " + str(profile.mother)
+    print "Status: "   + str(profile.status)
+    print "Sex: "     + str(profile.sex)
+    print "Pic: "     + str(profile.avatar)
+    print "Birthday: " + str(profile.birthday)
+    print "State: "   + str(profile.state.getStatus())
+    print "Political: " + str(profile.politics.getStatus())
+    print "Friends: "
+
+    
+
+    for friend in profile.friends.persons:
+        print friend.name
+        print friend.id
+        print friend.name + " <" + str(friend.id) + ">"
+
+    print "Friends on-line:"
+    for friend in profile.friends_online.persons:
+        print friend.name + " <" + str(friend.id) + ">"
+
+    print "Friends shared:"
+    for friend in profile.shared_friends.persons:
+        print friend.name + " <" + str(friend.id) + ">"
+
+    print "My photos:"
+    for photo in profile.own_photos.photos:
+        print str(photo.pic)
+
+    print "Photos with me:"
+    for photo in profile.mark_photos.photos:
+        print str(photo.pic)
+
+    print "Wall not yet implemented"
+
+    print "On-line status: " + str(profile.online)
+
+    print "Education statements not implemented fully yet:"
+    print str(profile.education)
+
+def test_06():
     wall = test.v_wall(test.get_own_id(), 0, 100)
     for message in wall.messages:
         print message.mfrom.name + "\t<" + message.text + ">" + "\t == " + (message.original_url or "--")
 
-
-tests = [test_01, test_04, test_05]
+tests = [test_01, test_05, test_06]
 
 try:
     session = Session()
@@ -49,4 +90,5 @@ try:
 
 except UserAPIError as error:
     print "Get code: " + str(error.code) + " " + error.text
+
 

@@ -108,16 +108,17 @@ class UserAPI:
                                     "id"   : id})
         
         return Parser(data).as_photos()
+
+    def v_profile(self, id = None):
+        action = "profile"
         
+        data = self.v_api(action, { "id"   : id})
+        return Parser(data).as_person(PRO_PERSON)
 
     def get_own_id(self):
-        # Fucked hack
-
         if self.id == 0:
-            messages = self.v_messages(UserAPITypes.Outbox, None, 0, 1)
-            if messages.count <= 0:
-                return RetCodes.Error
-            self.id = messages.messages[0].mfrom.id
+            data = self.v_api('profile', { "id" : None })
+            self.id = data['us']
         
         return self.id
 
