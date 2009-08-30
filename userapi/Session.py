@@ -53,6 +53,22 @@ class Session:
         self.sid = sid
         return sid
 
+    def logout(self):
+
+        connection = httplib.HTTPConnection(USERAPI_HOST)
+
+        login_request = "/auth?login=logout&site=" + str(ID) + "&sid=" + self.sid
+
+      
+        connection.request('GET',login_request)
+        response = connection.getresponse()
+        connection.close()
+
+        if response.status != 302:
+            raise UserAPIError(0, "login", "Couldn't connect")
+
+        self.sid = None
+
     def save_session(self, file):
         save = open(file, "w")
         save.write(self.remixpass)
