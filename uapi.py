@@ -34,7 +34,9 @@ try:
     session.login(USER, PASS)
     
     test = UserAPI(session)
-
+    
+    print "Own ID: " + str(test.get_own_id())
+    
     for testcase in tests:
         print "---------------------------"
         testcase()
