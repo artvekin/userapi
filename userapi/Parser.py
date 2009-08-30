@@ -1,25 +1,25 @@
+import json
+
 from Message import *
 from Person  import *
-import json
+from Photo   import *
 
 MSG_PERSON = 0
 FRI_PERSON = 1
 PRO_PERSON = 2
-
-
-
 
 class Parser:
     def __init__ (self, data):
         self.data = data
 
     def as_message(self):
-            return Message(int(self.data['0']),
-                           int(self.data['1']),
-                           str(self.data['2']),
-                           Parser(self.data['3']).as_person(MSG_PERSON),
-                           Parser(self.data['4']).as_person(MSG_PERSON),
-                           bool(self.data['5']))
+
+        return Message(int(self.data['0']),
+                       int(self.data['1']),
+                       self.data['2'],
+                       Parser(self.data['3']).as_person(MSG_PERSON),
+                       Parser(self.data['4']).as_person(MSG_PERSON),
+                       bool(self.data['5']))
         
     def as_messages(self):
         messages = []
@@ -115,8 +115,17 @@ class Parser:
                         self.data['cii'],
                         self.data['cin'])
 
+    def as_photo(self):
+        return Photo(self.data[0],
+                     self.data[1],
+                     self.data[2])
+        
+        
+    def as_photos(self):
+        photos = []
 
+        for photo in self.data:
+            photos.append(Parser(photo).as_photo())
 
-
-
+        return photos
 
