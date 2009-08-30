@@ -79,19 +79,6 @@ class Parser:
             prof.state      = MaritalStatus(self.data['fs'])
             prof.politics   = PoliticView(self.data['pv'])
 
-            # for friend in self.data['fr']:
-            #     prof.friends.append(Parser(friend).as_person(FRI_PERSON))
-
-            # prof.friends_online = []
-
-            # for friend in self.data['fro']:
-            #     prof.friends_online.append(Parser(friend).as_person(FRI_PERSON))
-
-            # prof.shared_friends = []
-
-            # for friend in self.data['frm']:
-            #     prof.shared_friends.append(Parser(friend).as_person(FRI_PERSON))
-
             prof.friends = Parser(self.data['fr']).as_persons(FRI_PERSON)
             prof.friends_online = Parser(self.data['fro']).as_persons(FRI_PERSON)
             prof.shared_friends = Parser(self.data['frm']).as_persons(FRI_PERSON)
@@ -100,7 +87,6 @@ class Parser:
             prof.mark_photos = Parser(self.data['phw']).as_photos()
             # TODO: Fix it ?
             # prof.privacy     = Parser(self.data['pr']).as_privacy()
-            
             
             prof.wall = None # TODO
             prof.online = self.data['on']
@@ -135,7 +121,6 @@ class Parser:
                         self.data['cin'])
 
     def as_photo(self):
-     
         return Photo(self.data[0],
                      self.data[2],
                      self.data[1])
