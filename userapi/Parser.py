@@ -137,8 +137,8 @@ class Parser:
     def as_photo(self):
      
         return Photo(self.data[0],
-                     self.data[1],
-                     self.data[2])
+                     self.data[2],
+                     self.data[1])
 
     def as_uploadinfo(self):
         return PhotosUploadInfo(self.data['aid'],
