@@ -26,7 +26,7 @@ def test_04():
     for conversation in conversations:
         print "conversation: " + conversation.mwith.name
         for message in conversation.messages:
-            print  "\t<" + message.text.decode() + ">"
+            print  "\t<" + message.text + ">"
 
 
 tests = [test_01, test_04]
