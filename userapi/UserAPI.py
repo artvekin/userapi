@@ -86,6 +86,18 @@ class UserAPI:
 
         return Parser(data).as_messages()
 
+
+    def v_wall(self, id, start, end, ts = None):
+        action = "wall"
+
+        data = self.v_api(action, { "from" : start,
+                                    "to"   : end,
+                                    "id"   : id,
+                                    "ts"   : ts})
+
+        return Parser(data).as_messages()
+
+
     def v_photos(self, subtype, id, start, end):
         action = "photos"
         if subtype:

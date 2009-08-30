@@ -19,6 +19,12 @@ def listify(data, size):
     return result
 
 
+def convert(val, type, default = None):
+    if val is not None:
+        return type(val)
+    return default
+
+
 class Parser:
     def __init__ (self, data):
         self.data = data
@@ -32,7 +38,14 @@ class Parser:
                        self.data[2][0],
                        Parser(self.data[3]).as_person(MSG_PERSON),
                        Parser(self.data[4]).as_person(MSG_PERSON),
-                       bool(self.data[5]))
+                       convert(self.data[5], bool, False),
+                       convert(self.data[2][1], int, Message.TEXT),
+                       self.data[2][2],
+                       self.data[2][3],
+                       self.data[2][4],
+                       convert(self.data[2][5], int),
+                       convert(self.data[2][6], int),
+                       convert(self.data[2][7], int))
         
     def as_messages(self):
         messages = []

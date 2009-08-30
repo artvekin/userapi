@@ -1,6 +1,11 @@
 import Parser
 
 class Message:
+    TEXT   = 0
+    PHOTO  = 1
+    GRAPHITY = 2
+    VIDEO = 3
+    AUDIO = 4
     def __init__(self, id, time, text, mfrom, mto, isReaded,
                 # Parameters defined at wall's messages retrieval
                 message_type = 0, message_name = None,
