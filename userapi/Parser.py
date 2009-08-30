@@ -8,17 +8,31 @@ MSG_PERSON = 0
 FRI_PERSON = 1
 PRO_PERSON = 2
 
+def listify(data, size):
+    result = [None for i in range(0, size)]
+    if isinstance(data, list):
+        for i in range(0, len(data)):
+            result[i] = data[i]
+    elif isinstance(data, dict):
+        for i in data:
+            result[int(i)] = data[i]
+    return result
+
+
 class Parser:
     def __init__ (self, data):
         self.data = data
 
     def as_message(self):
-        return Message(int(self.data['0']),
-                       int(self.data['1']),
-                       self.data['2'][0],
-                       Parser(self.data['3']).as_person(MSG_PERSON),
-                       Parser(self.data['4']).as_person(MSG_PERSON),
-                       bool(self.data['5']))
+        self.data = listify(self.data, 6)
+        self.data[2] = listify(self.data[2], 8)
+
+        return Message(int(self.data[0]),
+                       int(self.data[1]),
+                       self.data[2][0],
+                       Parser(self.data[3]).as_person(MSG_PERSON),
+                       Parser(self.data[4]).as_person(MSG_PERSON),
+                       bool(self.data[5]))
         
     def as_messages(self):
         messages = []
@@ -51,7 +65,10 @@ class Parser:
             return Person(id, name, avatar, isOnline, miniimg, sex)
 
         elif    parse_type == FRI_PERSON:
-            id         = self.data[0] if type(self.data[0]) is list else self.data
+
+            self.data = listify(self.data, 4)
+
+            id         = self.data[0]
             name       = None 
             avatar     = None 
             isOnline   = None 
@@ -116,6 +133,7 @@ class Parser:
                         self.data['cin'])
 
     def as_photo(self):
+        self.data = listify(self.data, 3)
         return Photo(self.data[0],
                      self.data[1],
                      self.data[2])
