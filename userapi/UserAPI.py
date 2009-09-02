@@ -52,8 +52,7 @@ class UserAPI:
 
         data = re.sub("([0-9]+):", "\"\\1\":", data)
         data = re.sub("\\t", " ", data)
-
-        return json.loads(data, "utf-8")
+        return json.loads(data, "latin-1")
 
 
     def v_friends(self, subtype, id, start, end):
