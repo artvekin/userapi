@@ -8,14 +8,14 @@ ID="1"
 USERAPI_HOST="login.userapi.com"
 
 class Session:
-    def __init__(self, filename = None):
+    def __init__(self, filename = None, remixpass = None, sid = None):
         if filename:
             self.load_session(filename)
             self.renew_session()
         else:
             self.sid = None
-            self.remixpass = None
-            
+            self.remixpass = remixpass
+            self.sid = sid
 
     def login(self, user, password, captcha = None):
 
