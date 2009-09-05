@@ -26,6 +26,28 @@ class UserAPITypes:
     MyPhotos            = "with"
   
 
+def fix_unicode(val, encoding = 'utf-8', exclude = []):
+    if isinstance(val, unicode):
+        tmp = val.encode('latin-1')
+        return unicode(tmp, encoding)
+    elif isinstance(val, dict):
+        result = {}
+        for key in val:
+            if key not in exclude:
+                result[key] = fix_unicode(val[key], encoding)
+            else:
+                result[key] = val[key]
+        return result
+    elif isinstance(val, list):
+        result = list(val)
+        for i in range(0, len(result)):
+            if i not in exclude:
+                result[i] = fix_unicode(result[i], encoding)
+        return result
+    else:
+        return val
+
+
 class UserAPI:
     def __init__(self, session):
         self.session = session
@@ -52,7 +74,15 @@ class UserAPI:
 
         data = re.sub("([0-9]+):", "\"\\1\":", data)
         data = re.sub("\\t", " ", data)
-        return json.loads(data, "latin-1")
+
+        contenttype = response.getheader('Content-Type')
+        m = re.search("charset=(?P<charset>.*)", contenttype)
+        charset = m.group('charset').lower()
+        if charset == 'utf-8':
+            encoding = 'utf-8'
+        else:
+            encoding = 'latin-1'
+        return json.loads(data, encoding), charset
 
 
     def v_friends(self, subtype, id, start, end):
@@ -61,9 +91,9 @@ class UserAPI:
         if subtype:
             action = action + "_" + subtype 
         
-        data = self.v_api(action, { "from" : start,
-                                    "to"   : end   ,
-                                    "id"   : id    })
+        data, charset = self.v_api(action, { "from" : start,
+                                             "to"   : end,
+                                             "id"   : id})
 
 
         friends = []
@@ -78,10 +108,10 @@ class UserAPI:
         if subtype:
             action = subtype
 
-        data = self.v_api(action, { "from" : start,
-                                    "to"   : end,
-                                    "id"   : id,
-                                    "ts"   : ts})
+        data, charset = self.v_api(action, { "from" : start,
+                                             "to"   : end,
+                                             "id"   : id,
+                                             "ts"   : ts})
 
         return Parser(data).as_messages()
 
@@ -89,10 +119,10 @@ class UserAPI:
     def v_wall(self, id, start, end, ts = None):
         action = "wall"
 
-        data = self.v_api(action, { "from" : start,
-                                    "to"   : end,
-                                    "id"   : id,
-                                    "ts"   : ts})
+        data, charset = self.v_api(action, { "from" : start,
+                                             "to"   : end,
+                                             "id"   : id,
+                                             "ts"   : ts})
 
         return Parser(data).as_messages()
 
@@ -102,21 +132,27 @@ class UserAPI:
         if subtype:
             action = action + "_" + subtype
 
-        data = self.v_api(action, { "from" : start,
-                                    "to"   : end,
-                                    "id"   : id})
+        data, charset = self.v_api(action, { "from" : start,
+                                             "to"   : end,
+                                             "id"   : id})
         
         return Parser(data).as_photos()
 
     def v_profile(self, id = None):
         action = "profile"
         
-        data = self.v_api(action, { "id"   : id})
+        data, charset = self.v_api(action, { "id"   : id})
+        if charset != 'utf-8':
+            broken_keys = ['fr', 'fro', 'frm']
+            for key in broken_keys:
+                data[key] = fix_unicode(data[key], 'cp1251')
+            data = fix_unicode(data, exclude = broken_keys)
+
         return Parser(data).as_person(PRO_PERSON)
 
     def get_own_id(self):
         if self.id == 0:
-            data = self.v_api('profile', { "id" : None })
+            data, charset = self.v_api('profile', { "id" : None })
             self.id = data['us']
         
         return self.id
