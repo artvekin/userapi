@@ -94,12 +94,13 @@ class UserAPI:
         data, charset = self.v_api(action, { "from" : start,
                                              "to"   : end,
                                              "id"   : id})
-
+        if charset != 'utf-8':
+            data = fix_unicode(data, 'cp1251')
 
         friends = []
         
         for person in data:
-            friends.append(Parser(person).as_person(Parser.FRI_PERSON))
+            friends.append(Parser(person).as_person(FRI_PERSON))
 
         return friends
 
@@ -112,7 +113,8 @@ class UserAPI:
                                              "to"   : end,
                                              "id"   : id,
                                              "ts"   : ts})
-
+        if charset != 'utf-8':
+            data = fix_unicode(data)
         return Parser(data).as_messages()
 
 
@@ -123,7 +125,8 @@ class UserAPI:
                                              "to"   : end,
                                              "id"   : id,
                                              "ts"   : ts})
-
+        if charset != 'utf-8':
+            data = fix_unicode(data)
         return Parser(data).as_messages()
 
 
