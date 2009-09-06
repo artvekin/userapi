@@ -53,9 +53,14 @@ class Parser:
 
         for message_data in self.data['d']:
             messages.append(Parser(message_data).as_message())
-    
+        
+        if isinstance(self.data['h'], int):
+            history = self.data['h']
+        else:
+            history = Parser(self.data['h']).as_history()
+
         return Messages(int(self.data['n']),
-                        int(self.data['h']),
+                        history,
                         len(self.data['d']),
                         messages)
 
@@ -186,3 +191,8 @@ class Parser:
                        self.data['wa'],
                        self.data['ms'])
 
+    def as_history(self):
+        self.data = listify(self.data)
+        return History(int(self.data[0]),
+                       self.data[1],
+                       Parser(self.data[2]).as_message())
