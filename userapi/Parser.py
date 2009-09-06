@@ -110,7 +110,7 @@ class Parser:
             prof.mother     = self.data['mn']
             prof.status     = self.data['actv'] #TODO: Parse it
             prof.position   = Parser(self.data['ht']).as_position()
-            prof.birthday   = datetime.date(self.data['by'], self.data['bm'], self.data['bd'])
+            prof.birthday   = UncheckedDate(self.data['by'], self.data['bm'], self.data['bd'])
             prof.state      = MaritalStatus(self.data['fs'])
             prof.politics   = PoliticView(self.data['pv'])
 
