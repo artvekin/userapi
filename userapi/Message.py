@@ -35,6 +35,13 @@ class Messages:
         self.messages  = messages
 
 
+class History:
+    def __init__(self, version, action, message):
+        self.version   = version
+        self.action    = action
+        self.message   = message
+
+
 class Conversation:
     def __init__(self, mwith, messages):
         self.mwith     = mwith
