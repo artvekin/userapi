@@ -6,4 +6,4 @@ class StoredObject:
         return int(self.id) != int(other.id)
 
     def __hash__(self):
-        return int(id)
+        return int(self.id)

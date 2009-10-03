@@ -172,13 +172,13 @@ class Parser:
 
         for photo in self.data['d']:
             photos.append(Parser(photo).as_photo())
+	
+        ts = self.data.get('ts', None)
 
-        if (len(self.data) > 2):
+        if (len(self.data) > 3):
             upload_info = self.as_uploadinfo()
-            ts = self.data['ts']
         else:
             upload_info = None
-            ts = None
 
         return Photos(self.data['n'],
                       photos,
