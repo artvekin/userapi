@@ -1,3 +1,5 @@
+from StoredObject import *
+
 class Privacy:
     def __init__(self, may_look_profile, may_look_wall, may_leave_messages):
         self.may_look_profile   = may_look_profile
@@ -57,7 +59,7 @@ class PersonsProfile:
         self.is_requester_favour  = None 
         
         
-class Person:
+class Person(StoredObject):
     def __init__(self,
                  id, name, avatar, isOnline,  # Always
                  miniimg = None, sex = None,  # Message Parse

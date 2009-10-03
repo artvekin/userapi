@@ -1,6 +1,6 @@
-import Parser
+from StoredObject import *
 
-class Message:
+class Message(StoredObject):
     TEXT   = 0
     PHOTO  = 1
     GRAPHITY = 2
