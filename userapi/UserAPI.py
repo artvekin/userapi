@@ -1,4 +1,5 @@
 from Parser import *
+from Errors import *
 
 import Session
 import httplib
@@ -82,8 +83,14 @@ class UserAPI:
             encoding = 'utf-8'
         else:
             encoding = 'latin-1'
-        return json.loads(data, encoding), charset
-
+	
+        try:
+            return json.loads(data, encoding), charset
+        except StandardError as error:
+            raise JSONProblemError(data,
+                                   { "error"    : error, 
+                                     "encoding" : encoding})
+            
 
     def v_friends(self, subtype, id, start, end):
 
