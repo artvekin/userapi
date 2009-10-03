@@ -1,4 +1,6 @@
-class Photo:
+from StoredObject import *
+
+class Photo(StoredObject):
     def __init__ (self, id, pic, small_pic):
         self.id         = id
         self.pic        = pic
