@@ -105,7 +105,7 @@ class UserAPI:
             raise UserAPIError(0, action, "Couldn't connect")
 
         data = self.fix_json(data)
-        data = re.sub("\\t", " ", data)
+        data = re.sub("\\t|\\x13", " ", data)
 
         contenttype = response.getheader('Content-Type')
         m = re.search("charset=(?P<charset>.*)", contenttype)

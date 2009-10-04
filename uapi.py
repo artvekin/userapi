@@ -76,6 +76,9 @@ def test_05():
 def test_05_1():
     test_profile(5368780)
 
+def test_05_2():
+    test_profile(9919546)
+
 def test_06():
     wall = test.v_wall(test.get_own_id(), 0, 100)
     for message in wall.messages:
@@ -83,7 +86,7 @@ def test_06():
 
 
 
-tests = [test_01, test_05, test_05_1, test_06]
+tests = [test_01, test_05, test_05_1, test_05_2, test_06]
 
 try:
     session = Session()
