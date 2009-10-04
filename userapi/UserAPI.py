@@ -54,6 +54,37 @@ class UserAPI:
         self.session = session
         self.id      = 0
         
+    def fix_json(self, data):
+        res = ""
+        state = ""
+        number = ""
+        for s in data:
+            if state == "":
+                if s == "\"":
+                    res = res + s
+                    state = "\""
+                elif s.isdigit():
+                    number = s
+                    state = "n"
+                else:
+                    res = res + s
+            elif state == "\"":
+                if s == "\"":
+                    res = res + s
+                    state = ""
+                else:
+                    res = res + s
+            elif state == "n":
+                if s == ":":
+                    res = res + "\"" + number + "\":"
+                    state = ""
+                elif s.isdigit():
+                    number = number + s
+                else:
+                    res = res + number + s
+                    state = ""
+        return res
+
     def v_api(self, action, parameters):
         # self.renew_session()
 
@@ -73,10 +104,8 @@ class UserAPI:
         if response.status != 200:
             raise UserAPIError(0, action, "Couldn't connect")
 
-        data = re.sub("([0-9]+):\"", "\"\\1\":\"", data)
-        data = re.sub("([0-9]+):([0-9]+),", "\"\\1\":\\2,", data)
+        data = self.fix_json(data)
         data = re.sub("\\t", " ", data)
-        print data
 
         contenttype = response.getheader('Content-Type')
         m = re.search("charset=(?P<charset>.*)", contenttype)
