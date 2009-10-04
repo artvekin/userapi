@@ -72,8 +72,10 @@ class UserAPI:
         if response.status != 200:
             raise UserAPIError(0, action, "Couldn't connect")
 
-        data = re.sub("([0-9]+):", "\"\\1\":", data)
+        data = re.sub("([0-9]+):\"", "\"\\1\":\"", data)
+        data = re.sub("([0-9]+):([0-9]+),", "\"\\1\":\\2,", data)
         data = re.sub("\\t", " ", data)
+        print data
 
         contenttype = response.getheader('Content-Type')
         m = re.search("charset=(?P<charset>.*)", contenttype)
