@@ -6,8 +6,8 @@ USER = "test.vkontakte@mail.ru"
 PASS = "yi8zXpHIs"
 DID="41657126"
 
-
-def print_profile(profile):
+def test_profile(id = None):
+    profile = test.v_profile(id)
     print "Profile of user " + profile.name + " <" + str(profile.id) + "> "
     print "Mother: " + str(profile.mother)
     print "Status: "   + str(profile.status)
@@ -71,20 +71,19 @@ def test_04():
             print  "\t<" + message.text + ">"
 
 def test_05():
-    profile = test.v_profile()
-    print_profile(profile)
+    test_profile()
+
+def test_05_1():
+    test_profile(5368780)
 
 def test_06():
     wall = test.v_wall(test.get_own_id(), 0, 100)
     for message in wall.messages:
         print message.mfrom.name + "\t<" + message.text + ">" + "\t == " + (message.original_url or "--")
 
-def test_07():
-    profile = test.v_profile(8545400)
-    print_profile(profile)
 
 
-tests = [test_01, test_05, test_06, test_07]
+tests = [test_01, test_05, test_05_1, test_06]
 
 try:
     session = Session()
