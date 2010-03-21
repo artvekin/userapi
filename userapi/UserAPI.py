@@ -191,6 +191,14 @@ class UserAPI:
 
         return Parser(data).as_person(PRO_PERSON)
 
+    def add_message(self, id, message, ts = None):
+        action = "add_message"
+
+        data, charset = self.v_api(action, { "id"      : id,
+                                             "ts"      : ts,
+                                             "message" : message})
+        return data["ok"]
+
     def get_own_id(self):
         if self.id == 0:
             data, charset = self.v_api('profile', { "id" : None })
